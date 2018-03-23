@@ -13,4 +13,4 @@ class Ship():
 		self.rect.left=self.screen_rect.left
 	def bliteme(self):
 			"""在指定位置绘制飞船"""
-			self.screen.blit(self.image,self.rect)
+			self.screen.blit(self.image,self.rect)                 #因为blit函数（在指定位置绘制飞船）与屏幕打印有关所以属于screen
