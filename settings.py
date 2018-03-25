@@ -3,6 +3,12 @@ class Setting():
 	
 	def __init__(self):                        #构造函数，不需要提供变量，必须包含self
 		#屏幕设置
-		self.screen_width=1200
-		self.screen_high=800
+		self.screen_width=1500
+		self.screen_high=835
 		self.screen_color=(230,230,230)
+		self.ship_speed_factor=1.5 
+		self.bullet_speed_factor=1.9
+		self.bullet_width=3
+		self.bullet_height=15
+		self.bullet_color=(60,60,60)
+		self.bullet_allowed=5
