@@ -24,5 +24,5 @@ class Bullet(Sprite):
 				bullets.remove(bullet)
 	def draw_bullet(self):
 		"""在屏幕上绘制子弹"""
-		pygame.draw.rect(self.screen,self.color,self.rect)         #pygame.draw.rect是pygame的绘制函数，而飞船是图片，显示在电脑上的话函数是blit()
+		pygame.draw.rect(self.screen,self.color,self.rect)         #绘制一个组的话用draw
 		
