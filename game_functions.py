@@ -1,3 +1,4 @@
+#coding:utf-8
 import pygame
 import sys
 import settings
@@ -51,28 +52,39 @@ def get_number_rows(ai_settings,alien_height,ship_height):
 def creat_alien(ai_settings,screen,aliens,alien_number,alien_width,alien_height,number_rows):
 	"""创建一个外星人并将其放在现在这行"""
 	alien=Alien(ai_settings,screen)
-	alien.x=alien_width*alien_number
+	alien.x=alien_width+alien_width*alien_number
 	alien.y=alien_height*number_rows
 	alien.rect.x=alien.x                                                           #到时候绘制图像的时候是要绘制alien.rect.x和alien.rect.y的
 	alien.rect.y=alien.y
 	aliens.add(alien)
-def check_fleet_edages(aliens,screen,ai_settings):
-	for alien in aliens :
-		if alien.check_edges(screen):
+def check_fleet_edages(aliens,ai_settings):
+	for alien in aliens.sprites():
+		if alien.check_edges():                                  #条件满足则改变移动方向
 			change_fleet_direction(ai_settings,aliens)
 			break                                                        #如果有外星人到达了屏幕边缘直接break
 def change_fleet_direction(ai_settings,aliens):
-	for alien in aliens:                                                   #想使用alien.rect的属性必须西先遍历一遍
-		alien.rect.y-=ai_settings.fleet_drop_speed
-		ai_settings.fleet_direction*= -1
-def update_aliens(ai_settings,aliens,screen):
-	check_fleet_edages(aliens,screen,ai_settings)
-	aliens.update(ai_settings)
+	for alien in aliens.sprites():                                                   #想使用alien.rect的属性必须西先遍历一遍
+		alien.y+=ai_settings.fleet_drop_speed
+	ai_settings.fleet_direction *= -1
+def update_aliens(ai_settings,aliens):                 #更新外星人的位置，如果碰到墙壁就转向
+	check_fleet_edages(aliens,ai_settings)
+	aliens.update(ai_settings)                                #这个只是更新数据，没有把图片绘制在桌面上
+def update_bullets(ai_settings,screen,ship,bullets,aliens,ship_height):
+	bullets.update(bullets)                            #更新bullets的位置
+	#删除已经消失的子弹
+	for bullet in bullets.copy():
+		if(bullet.rect.bottom<=0):
+			bullets.remove(bullet)
+	check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship_height)
+def check_bullet_alien_collisions(bullets,aliens,ai_settings,screen,ship_height):
+	collisions=pygame.sprite.groupcollide(bullets,aliens,True,True)   #检验碰撞函数
+	if(len(aliens)==0):
+		bullets.empty()
+		creat_fleet(ai_settings,screen,aliens,ship_height)
 def update_screen(ai_settings,screen,ship,bullets,aliens):
-	screen.fill(ai_settings.screen_color)          
-	for bullet in bullets.sprites():                          #函数sprites返回了一个列表，其中包含编组bullets中的所有精灵
-		bullet.draw_bullet()                               #遍历组中的每个元素并且对其调用draw_bullet()函数
-		bullet.update(bullets)                                   
-	ship.blitme()                          #将飞船放置到正确位置
+	screen.fill(ai_settings.screen_color)                   
+	ship.blitme()                          #将飞船放置到正确位置 
+	for bullet in bullets.sprites():
+		bullet.draw_bullet()                                                                               #draw_bullet()函数是让子弹显示在图像上的
 	aliens.draw(screen)                     #aliens是组,不可以用Alien的函数,绘制的话需要用draw() 
 	pygame.display.flip()                  #让最近绘制的屏幕可见
