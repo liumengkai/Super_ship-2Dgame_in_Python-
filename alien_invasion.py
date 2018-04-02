@@ -1,3 +1,4 @@
+#coding:utf-8
 import sys
 import pygame
 from ship import Ship
@@ -6,7 +7,7 @@ import game_functions as gf
 from pygame.sprite import Group
 from alien import Alien
 def run_game():
-	#初始化屏幕并且创建一个屏幕对象
+	#初始化屏幕并且创建一个屏幕对象	
 	pygame.init()    #初始化
 	ai_settings=Setting()
 	screen=pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))        #创建了一个屏幕对象screen设置屏幕大小
@@ -22,6 +23,7 @@ def run_game():
 		#监视键盘和鼠标事件
 		gf.check_events(ai_settings,screen,ship,bullets)
 		ship.update()
-		gf.update_aliens(ai_settings,aliens,screen)
+		gf.update_aliens(ai_settings,aliens)
+		gf.update_bullets(ai_settings,screen,ship,bullets,aliens,ship_height)
 		gf.update_screen(ai_settings,screen,ship,bullets,aliens)                #每次循环都会重新绘制屏幕 #必须先进行填充背景色#将飞船放置在底端中间#让最近绘制的屏幕可见		                         		
 run_game()
