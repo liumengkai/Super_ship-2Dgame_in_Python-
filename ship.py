@@ -1,3 +1,4 @@
+#coding:utf-8
 import pygame
 import game_functions as gf
 from settings import Setting
