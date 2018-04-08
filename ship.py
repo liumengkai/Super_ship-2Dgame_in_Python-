@@ -24,3 +24,6 @@ class Ship():
 		if self.move_right and self.rect.right<self.screen_rect.right:
 			self.center+=self.ai_settings.ship_speed_factor
 		self.rect.centerx=self.center
+	def center_ship(self):
+		"""让飞船在屏幕上居中"""
+		self.center=self.screen_rect.centerx                  #飞船的属性center设置为屏幕中心的x 坐标
